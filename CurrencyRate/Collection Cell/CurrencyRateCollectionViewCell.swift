@@ -13,12 +13,23 @@ class CurrencyRateCollectionViewCell: UICollectionViewCell {
   
   @IBOutlet weak var addToFavouriteButton: UIButton!
   
+  var indexPath: IndexPath?
+  
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    
+    self.indexPath = nil
+    self.currencyNameLabel.text = nil
+    self.currencyRateLabel.text = nil
+//    addToFavouriteButton -- image nil!
+  }
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
 
   func setupCell(with currencyInfo: (currencyName: String, currencyRate: Double)) {
+    self.contentView.backgroundColor = .red
     self.currencyNameLabel.text = currencyInfo.currencyName
     self.currencyRateLabel.text = String(currencyInfo.currencyRate)
   }

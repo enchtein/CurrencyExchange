@@ -2,8 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,38 +18,35 @@
                 <rect key="frame" x="0.0" y="0.0" width="184" height="136"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="25" translatesAutoresizingMaskIntoConstraints="NO" id="Jwn-3t-Qzs">
-                        <rect key="frame" x="5" y="31" width="174" height="66"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="currency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKw-cd-RB4">
-                                <rect key="frame" x="0.0" y="0.0" width="174" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="currency rate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljx-zI-jhZ">
-                                <rect key="frame" x="0.0" y="45.5" width="174" height="20.5"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                    </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="currency" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lKw-cd-RB4">
+                        <rect key="frame" x="58.5" y="30" width="67.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FfS-VC-MlJ">
-                        <rect key="frame" x="103.5" y="0.0" width="80.5" height="31"/>
-                        <state key="normal" title="Button"/>
-                        <buttonConfiguration key="configuration" style="plain" title="favourite"/>
+                        <rect key="frame" x="124" y="0.0" width="60" height="30"/>
+                        <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                        <state key="normal" title="favourite"/>
                     </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="currency rate" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ljx-zI-jhZ">
+                        <rect key="frame" x="41.5" y="60.5" width="101.5" height="15"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="Jwn-3t-Qzs" secondAttribute="trailing" constant="5" id="54w-tF-fBN"/>
+                <constraint firstItem="lKw-cd-RB4" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="1Rc-b7-nhE"/>
                 <constraint firstAttribute="trailing" secondItem="FfS-VC-MlJ" secondAttribute="trailing" id="RSO-3K-jWa"/>
-                <constraint firstItem="Jwn-3t-Qzs" firstAttribute="top" secondItem="FfS-VC-MlJ" secondAttribute="bottom" id="X0m-NV-ktP"/>
-                <constraint firstItem="Jwn-3t-Qzs" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="YpJ-CH-LDO"/>
                 <constraint firstItem="FfS-VC-MlJ" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="akG-3A-Q0Y"/>
-                <constraint firstItem="Jwn-3t-Qzs" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="gNu-Xd-gPv"/>
+                <constraint firstItem="lKw-cd-RB4" firstAttribute="top" secondItem="FfS-VC-MlJ" secondAttribute="bottom" id="dN3-6M-pj7"/>
+                <constraint firstItem="Ljx-zI-jhZ" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="gq2-9W-9gF"/>
+                <constraint firstItem="Ljx-zI-jhZ" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="hI1-qD-IXD"/>
+                <constraint firstItem="Ljx-zI-jhZ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="lKw-cd-RB4" secondAttribute="bottom" constant="10" id="jWd-eO-Esd"/>
             </constraints>
             <size key="customSize" width="184" height="136"/>
             <connections>
@@ -58,4 +57,9 @@
             <point key="canvasLocation" x="228.98550724637684" y="70.3125"/>
         </collectionViewCell>
     </objects>
+    <resources>
+        <systemColor name="systemGreenColor">
+            <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
