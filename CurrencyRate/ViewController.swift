@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class ViewController: UIViewController {
   
   @IBOutlet weak var selectedCurrency: UILabel!
@@ -16,7 +17,7 @@ class ViewController: UIViewController {
   private let cellIdentifier = "CurrencyRateCollectionViewCell"
   
   private var currencyExchange: CurrencyExchange?
-  private var currencyExchangeData = [(currencyName: String, currencyRate: Double)]()
+  private var currencyExchangeData = [(currencyName: String, currencyRate: Double, isFavourite: Bool)]()
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,16 +29,37 @@ class ViewController: UIViewController {
     self.currencyCollectionView.register(UINib(nibName: "CurrencyRateCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: self.cellIdentifier)
     
     URLSessionAdapter.provider.getCurrencyRate { result in
-      //      print(result)
       if let result = result {
         self.currencyExchange = result
-        
-        for item in result.conversionRates {
-          self.currencyExchangeData.append((currencyName: item.key, currencyRate: item.value))
-        }
-        
         DispatchQueue.main.async {
           self.selectedCurrency.text = "Currency "+result.baseCode
+          
+          if let storedData = CurrencyDbManager.shared.fetchDataFromDB() {
+            if storedData.isEmpty {
+              // need to save
+              var currencyArrayToDb = [(currencyName: String, isFavourite: Bool)]()
+              for (currencyName, currencyNameRate) in result.conversionRates {
+                currencyArrayToDb.append((currencyName: currencyName, isFavourite: false))
+                self.currencyExchangeData.append((currencyName: currencyName, currencyRate: currencyNameRate, isFavourite: false))
+              }
+              CurrencyDbManager.shared.save(currencyArray: currencyArrayToDb)
+            } else {
+              let favouritesItems = storedData.filter({$0.isFavourite})
+              //get is favourite
+              var prepairCurrencyArray = [(currencyName: String, currencyRate: Double, isFavourite: Bool)]()
+              for item in result.conversionRates {
+                prepairCurrencyArray.append((currencyName: item.key, currencyRate: item.value,  isFavourite: false))
+              }
+              
+              for favouritesItem in favouritesItems {
+                if let index = prepairCurrencyArray.firstIndex(where: {$0.currencyName == favouritesItem.currencyName}) {
+                  prepairCurrencyArray[index].isFavourite = favouritesItem.isFavourite
+                }
+              }
+              self.currencyExchangeData = prepairCurrencyArray.sorted(by: {$0.isFavourite && !$1.isFavourite})
+            }
+          }
+          
           self.currencyCollectionView.reloadData()
         }
         
@@ -47,7 +69,14 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: UICollectionViewDelegate {
-  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    collectionView.deselectItem(at: indexPath, animated: true)
+    let currencyExchangeInfo = self.currencyExchangeData[indexPath.row]
+    
+    let vc = DetailCurrencyViewController(currencyInfo: currencyExchangeInfo)
+    
+    self.navigationController?.pushViewController(vc, animated: true)
+  }
 }
 
 extension ViewController: UICollectionViewDataSource {

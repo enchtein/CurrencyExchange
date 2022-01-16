@@ -11,7 +11,7 @@ class CurrencyRateCollectionViewCell: UICollectionViewCell {
   @IBOutlet weak var currencyNameLabel: UILabel!
   @IBOutlet weak var currencyRateLabel: UILabel!
   
-  @IBOutlet weak var addToFavouriteButton: UIButton!
+  @IBOutlet weak var favouriteImageView: UIImageView!
   
   var indexPath: IndexPath?
   
@@ -22,15 +22,22 @@ class CurrencyRateCollectionViewCell: UICollectionViewCell {
     self.currencyNameLabel.text = nil
     self.currencyRateLabel.text = nil
 //    addToFavouriteButton -- image nil!
+    
   }
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-  func setupCell(with currencyInfo: (currencyName: String, currencyRate: Double)) {
+  
+  func setupCell(with currencyInfo: (currencyName: String, currencyRate: Double, isFavourite: Bool)) {
     self.contentView.backgroundColor = .red
     self.currencyNameLabel.text = currencyInfo.currencyName
     self.currencyRateLabel.text = String(currencyInfo.currencyRate)
+    
+    // only if favourite
+    if currencyInfo.isFavourite {
+      self.favouriteImageView.image = UIImage(systemName: "star.fill")
+      self.favouriteImageView.tintColor = .orange
+    } else {
+      self.favouriteImageView.image = UIImage(systemName: "star")
+      self.favouriteImageView.tintColor = .white
+    }
+    
   }
 }
