@@ -12,6 +12,10 @@ class ViewController: UIViewController {
   
   @IBOutlet weak var selectedCurrency: UILabel!
   @IBOutlet weak var currencyCollectionView: UICollectionView!
+  @IBOutlet weak var selectCurrencyTextField: UITextField!
+  
+  private var changeCurrencyPicker: UIPickerView?
+  private lazy var pickerDataSource: [String] = self.currencyExchangeData.map({$0.currencyName}).sorted(by: {$0 < $1})
   
   private let cellIdentifier = "CurrencyRateCollectionViewCell"
   
@@ -34,6 +38,14 @@ class ViewController: UIViewController {
     self.currencyCollectionView.dataSource = self
     
     self.currencyCollectionView.register(UINib(nibName: "CurrencyRateCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: self.cellIdentifier)
+    
+    self.setupToolbar()
+    
+    changeCurrencyPicker = UIPickerView()
+    changeCurrencyPicker?.dataSource = self
+    changeCurrencyPicker?.delegate = self
+    
+    self.selectCurrencyTextField.inputView = changeCurrencyPicker
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -46,8 +58,44 @@ class ViewController: UIViewController {
     self.isGrowingUP.toggle()
   }
   
-  private func fetchNetworkRequest() {
-    URLSessionAdapter.provider.getCurrencyRate { result in
+  @IBAction func selectCurrency(_ sender: UIControl) {
+    self.selectCurrencyTextField.becomeFirstResponder()
+  }
+  
+  private func setupToolbar() {
+    //    self.changeCurrencyPicker/
+    
+    
+    let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
+    toolBar.barStyle = .default
+    toolBar.isTranslucent = true
+    toolBar.sizeToFit()
+    
+    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(updateCurrencyList))
+    let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItem.Style.plain, target: self, action: #selector(cancelPicker))
+    
+    toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
+    toolBar.isUserInteractionEnabled = true
+    
+    self.selectCurrencyTextField.inputAccessoryView = toolBar
+    
+  }
+  @objc private func updateCurrencyList() {
+    if let indexRow = self.changeCurrencyPicker?.selectedRow(inComponent: 0) {
+      let text = self.pickerDataSource[indexRow]
+      self.fetchNetworkRequest(with: text)
+    }
+    
+    self.selectCurrencyTextField.resignFirstResponder()
+  }
+  
+  @objc private func cancelPicker() {
+    self.selectCurrencyTextField.resignFirstResponder()
+  }
+  
+  private func fetchNetworkRequest(with currencyName: String = "EUR") {
+    URLSessionAdapter.provider.getCurrencyRate(with: currencyName) { result in
       if let result = result {
         self.currencyExchange = result
         DispatchQueue.main.async {
@@ -83,7 +131,6 @@ class ViewController: UIViewController {
         
       }
     }
-    
   }
   
   private func sortExchangeData(isGrowingUP: Bool) {
@@ -143,5 +190,19 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
     
     return CGSize(width: 50, height: 50)
+  }
+}
+
+extension ViewController: UIPickerViewDataSource, UIPickerViewDelegate{
+  func numberOfComponents(in pickerView: UIPickerView) -> Int {
+    return 1
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    return self.pickerDataSource.count
+  }
+  
+  func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    return self.pickerDataSource[row]
   }
 }

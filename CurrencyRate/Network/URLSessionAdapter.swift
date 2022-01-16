@@ -13,9 +13,9 @@ class URLSessionAdapter {
   
   private init() {}
   
-  func getCurrencyRate(completion: @escaping (_ result: CurrencyExchange?) -> Void) {
+  func getCurrencyRate(with currencyName: String, completion: @escaping (_ result: CurrencyExchange?) -> Void) {
     DispatchQueue.main.async {
-      let baseUrl = "https://v6.exchangerate-api.com/v6/89973d0c9255096f930d81ec/latest/EUR"
+      let baseUrl = "https://v6.exchangerate-api.com/v6/89973d0c9255096f930d81ec/latest/\(currencyName)"
 //      let additionalURL = NasaTarget.getAllRovers.headers.joinedParamsDict()
       
       

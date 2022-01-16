@@ -57,6 +57,14 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRA-pt-6Za">
                                 <rect key="frame" x="0.0" y="88" width="414" height="50"/>
                                 <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xaf-Oh-cT6">
+                                        <rect key="frame" x="414" y="8" width="0.0" height="34"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" id="Rns-oG-sk7"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="lba-6e-ffw">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
                                         <subviews>
@@ -80,13 +88,27 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="981-yJ-iGG" customClass="UIControl">
+                                        <rect key="frame" x="0.0" y="0.0" width="354" height="50"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <action selector="selectCurrency:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1BK-IS-mDG"/>
+                                        </connections>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemPinkColor"/>
                                 <constraints>
+                                    <constraint firstItem="981-yJ-iGG" firstAttribute="leading" secondItem="keg-sb-ijF" secondAttribute="leading" id="0yh-0k-Dkx"/>
+                                    <constraint firstItem="981-yJ-iGG" firstAttribute="bottom" secondItem="keg-sb-ijF" secondAttribute="bottom" id="84b-2K-ffh"/>
+                                    <constraint firstItem="981-yJ-iGG" firstAttribute="trailing" secondItem="keg-sb-ijF" secondAttribute="trailing" id="9fd-GE-UfN"/>
+                                    <constraint firstAttribute="bottom" secondItem="xaf-Oh-cT6" secondAttribute="bottom" constant="8" id="CfE-wb-fnS"/>
                                     <constraint firstAttribute="bottom" secondItem="lba-6e-ffw" secondAttribute="bottom" id="WBj-4k-56i"/>
+                                    <constraint firstAttribute="trailing" secondItem="xaf-Oh-cT6" secondAttribute="trailing" id="Zp6-ye-WsM"/>
+                                    <constraint firstItem="xaf-Oh-cT6" firstAttribute="top" secondItem="fRA-pt-6Za" secondAttribute="top" constant="8" id="aZb-jr-Sls"/>
                                     <constraint firstAttribute="trailing" secondItem="lba-6e-ffw" secondAttribute="trailing" id="hZB-zK-scn"/>
                                     <constraint firstItem="lba-6e-ffw" firstAttribute="leading" secondItem="fRA-pt-6Za" secondAttribute="leading" id="sqn-7G-1Qm"/>
                                     <constraint firstItem="lba-6e-ffw" firstAttribute="top" secondItem="fRA-pt-6Za" secondAttribute="top" id="xsJ-B5-7lk"/>
+                                    <constraint firstItem="981-yJ-iGG" firstAttribute="top" secondItem="keg-sb-ijF" secondAttribute="top" id="zPH-0G-DII"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -105,12 +127,13 @@
                     <navigationItem key="navigationItem" id="W6d-Tf-26v"/>
                     <connections>
                         <outlet property="currencyCollectionView" destination="5vL-sf-Odd" id="KM7-b1-PoR"/>
+                        <outlet property="selectCurrencyTextField" destination="xaf-Oh-cT6" id="Y32-Mb-mTv"/>
                         <outlet property="selectedCurrency" destination="keg-sb-ijF" id="los-Qi-x6r"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="44.927536231884062" y="69.642857142857139"/>
+            <point key="canvasLocation" x="-722" y="47"/>
         </scene>
     </scenes>
     <resources>
