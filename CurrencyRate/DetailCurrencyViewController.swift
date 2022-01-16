@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailCurrencyViewController: UIViewController {
+//  lazy var safeArea = self.view.safeAreaLayoutGuide
+  let sideInset: CGFloat = 10
   
   var currencyInfo: (currencyName: String, currencyRate: Double, isFavourite: Bool)
   init(currencyInfo: (currencyName: String, currencyRate: Double, isFavourite: Bool)) {
@@ -40,23 +42,43 @@ class DetailCurrencyViewController: UIViewController {
     let currencyRateLabel = UILabel()
     currencyRateLabel.text = "Currency rate: \(self.currencyInfo.currencyRate)"
     
-    self.view.addSubview(currencyNameLabel)
-    self.view.addSubview(currencyRateLabel)
+//    self.view.addSubview(currencyNameLabel)
+//    self.view.addSubview(currencyRateLabel)
     
-    [currencyNameLabel, currencyRateLabel].forEach {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-    }
+//    [currencyNameLabel, currencyRateLabel].forEach {
+//      $0.translatesAutoresizingMaskIntoConstraints = false
+//    }
+//
+//    currencyNameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: self.sideInset).isActive = true
+//    currencyNameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: self.sideInset).isActive = true
+//    currencyNameLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -self.sideInset).isActive = true
+//
+//
+//    currencyRateLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: self.sideInset).isActive = true
+//    currencyRateLabel.topAnchor.constraint(equalTo: currencyNameLabel.bottomAnchor, constant: self.sideInset).isActive = true
+//    currencyRateLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -self.sideInset).isActive = true
     
-    let navigationBarHeight = self.navigationController?.navigationBar.frame.height ?? 0
     
-    currencyNameLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10 + navigationBarHeight).isActive = true
-    currencyNameLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 10 + navigationBarHeight).isActive = true
-    currencyNameLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -(10 + navigationBarHeight)).isActive = true
+    let verticalStack = UIStackView()
+    verticalStack.axis = .vertical
+    verticalStack.spacing = 10
+    
+    verticalStack.addArrangedSubview(currencyNameLabel)
+    verticalStack.addArrangedSubview(currencyRateLabel)
     
     
-    currencyRateLabel.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 10 + navigationBarHeight).isActive = true
-    currencyRateLabel.topAnchor.constraint(equalTo: currencyNameLabel.topAnchor, constant: 10 + navigationBarHeight).isActive = true
-    currencyRateLabel.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -(10 + navigationBarHeight)).isActive = true
+    self.view.addSubview(verticalStack)
+    
+    let safeArea = self.view.safeAreaLayoutGuide
+    verticalStack.translatesAutoresizingMaskIntoConstraints = false
+    
+    NSLayoutConstraint.activate([
+    verticalStack.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: self.sideInset),
+    verticalStack.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: self.sideInset),
+    verticalStack.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -self.sideInset),
+//    verticalStack.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -self.sideInset)
+    verticalStack.bottomAnchor.constraint(lessThanOrEqualTo: safeArea.bottomAnchor, constant: -self.sideInset)
+    ])
   }
     
   @objc private func changeFavouriteState() {
