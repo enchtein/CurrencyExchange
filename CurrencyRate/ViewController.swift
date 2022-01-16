@@ -51,7 +51,12 @@ class ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    self.fetchNetworkRequest()
+    if let indexRow = self.changeCurrencyPicker?.selectedRow(inComponent: 0) {
+      let text = self.pickerDataSource[indexRow]
+      self.fetchNetworkRequest(with: text)
+    } else {
+      self.fetchNetworkRequest()
+    }
   }
   
   @IBAction func reSortData(_ sender: UIButton) {
