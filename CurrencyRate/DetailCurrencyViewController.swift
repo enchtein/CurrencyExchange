@@ -8,6 +8,8 @@
 import UIKit
 
 class DetailCurrencyViewController: UIViewController {
+  private var addToFavouritesBarButton: UIBarButtonItem?
+  
 //  lazy var safeArea = self.view.safeAreaLayoutGuide
   let sideInset: CGFloat = 10
   
@@ -31,10 +33,11 @@ class DetailCurrencyViewController: UIViewController {
     }
   
   private func setupUI() {
-    let barButtonImage = currencyInfo.isFavourite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
-    let barButton = UIBarButtonItem(image: barButtonImage, style: .done, target: self, action: #selector(changeFavouriteState))
-    navigationItem.rightBarButtonItem = barButton
+//    let barButtonImage = currencyInfo.isFavourite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
     
+    self.addToFavouritesBarButton = UIBarButtonItem(image: nil, style: .done, target: self, action: #selector(changeFavouriteState))
+    navigationItem.rightBarButtonItem = addToFavouritesBarButton
+    self.updateAddToFavouriteIcon()
     
     let currencyNameLabel = UILabel()
     currencyNameLabel.text = "Currency - \(self.currencyInfo.currencyName)"
@@ -80,6 +83,10 @@ class DetailCurrencyViewController: UIViewController {
     verticalStack.bottomAnchor.constraint(lessThanOrEqualTo: safeArea.bottomAnchor, constant: -self.sideInset)
     ])
   }
+  
+  private func updateAddToFavouriteIcon() {
+    self.addToFavouritesBarButton?.image = currencyInfo.isFavourite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+  }
     
   @objc private func changeFavouriteState() {
     //change state
@@ -105,6 +112,7 @@ class DetailCurrencyViewController: UIViewController {
 //    if let parentVC = self.navigationController?.presentationController as? ViewController {
 //      parentVC.
 //    }
+    self.updateAddToFavouriteIcon()
   }
 
     /*

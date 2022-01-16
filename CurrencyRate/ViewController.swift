@@ -13,11 +13,18 @@ class ViewController: UIViewController {
   @IBOutlet weak var selectedCurrency: UILabel!
   @IBOutlet weak var currencyCollectionView: UICollectionView!
   
-  
   private let cellIdentifier = "CurrencyRateCollectionViewCell"
   
   private var currencyExchange: CurrencyExchange?
   private var currencyExchangeData = [(currencyName: String, currencyRate: Double, isFavourite: Bool)]()
+  
+  private var isGrowingUP = false {
+    willSet {
+      if newValue != isGrowingUP {
+        self.sortExchangeData(isGrowingUP: newValue)
+      }
+    }
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -27,7 +34,19 @@ class ViewController: UIViewController {
     self.currencyCollectionView.dataSource = self
     
     self.currencyCollectionView.register(UINib(nibName: "CurrencyRateCollectionViewCell", bundle: .main), forCellWithReuseIdentifier: self.cellIdentifier)
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     
+    self.fetchNetworkRequest()
+  }
+  
+  @IBAction func reSortData(_ sender: UIButton) {
+    self.isGrowingUP.toggle()
+  }
+  
+  private func fetchNetworkRequest() {
     URLSessionAdapter.provider.getCurrencyRate { result in
       if let result = result {
         self.currencyExchange = result
@@ -56,15 +75,28 @@ class ViewController: UIViewController {
                   prepairCurrencyArray[index].isFavourite = favouritesItem.isFavourite
                 }
               }
-              self.currencyExchangeData = prepairCurrencyArray.sorted(by: {$0.isFavourite && !$1.isFavourite})
+              self.currencyExchangeData = prepairCurrencyArray
             }
           }
-          
-          self.currencyCollectionView.reloadData()
+          self.sortExchangeData(isGrowingUP: self.isGrowingUP)
         }
         
       }
     }
+    
+  }
+  
+  private func sortExchangeData(isGrowingUP: Bool) {
+    self.currencyExchangeData.sort { lhs, rhs in
+      if lhs.isFavourite && rhs.isFavourite {
+        return isGrowingUP ? lhs.currencyRate < rhs.currencyRate : lhs.currencyRate > rhs.currencyRate
+      } else if !lhs.isFavourite && !rhs.isFavourite {
+        return isGrowingUP ? lhs.currencyRate < rhs.currencyRate : lhs.currencyRate > rhs.currencyRate
+      }
+      return lhs.isFavourite && !rhs.isFavourite
+    }
+    
+    self.currencyCollectionView.reloadData()
   }
 }
 
