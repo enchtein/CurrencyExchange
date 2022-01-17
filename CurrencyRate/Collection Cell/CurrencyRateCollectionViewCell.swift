@@ -21,23 +21,15 @@ class CurrencyRateCollectionViewCell: UICollectionViewCell {
     self.indexPath = nil
     self.currencyNameLabel.text = nil
     self.currencyRateLabel.text = nil
-//    addToFavouriteButton -- image nil!
-    
   }
   
   func setupCell(with currencyInfo: (currencyName: String, currencyRate: Double, isFavourite: Bool)) {
-    self.contentView.backgroundColor = .red
+    self.contentView.backgroundColor = .lightGray
     self.currencyNameLabel.text = currencyInfo.currencyName
     self.currencyRateLabel.text = String(currencyInfo.currencyRate)
     
     // only if favourite
-    if currencyInfo.isFavourite {
-      self.favouriteImageView.image = UIImage(systemName: "star.fill")
-      self.favouriteImageView.tintColor = .orange
-    } else {
-      self.favouriteImageView.image = UIImage(systemName: "star")
-      self.favouriteImageView.tintColor = .white
-    }
-    
+    self.favouriteImageView.image = currencyInfo.isFavourite ? UIImage(systemName: "star.fill") : UIImage(systemName: "star")
+    self.favouriteImageView.tintColor = currencyInfo.isFavourite ? .orange : .white
   }
 }

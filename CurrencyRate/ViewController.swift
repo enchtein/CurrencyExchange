@@ -15,6 +15,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var selectCurrencyTextField: UITextField!
   
   private var changeCurrencyPicker: UIPickerView?
+  private var selectedRowFromPicker: Int?
   private lazy var pickerDataSource: [String] = self.currencyExchangeData.map({$0.currencyName}).sorted(by: {$0 < $1})
   
   private let cellIdentifier = "CurrencyRateCollectionViewCell"
@@ -51,8 +52,8 @@ class ViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
-    if let indexRow = self.changeCurrencyPicker?.selectedRow(inComponent: 0) {
-      let text = self.pickerDataSource[indexRow]
+    if let currencyRowIndex = self.selectedRowFromPicker {
+      let text = self.pickerDataSource[currencyRowIndex]
       self.fetchNetworkRequest(with: text)
     } else {
       self.fetchNetworkRequest()
@@ -68,9 +69,6 @@ class ViewController: UIViewController {
   }
   
   private func setupToolbar() {
-    //    self.changeCurrencyPicker/
-    
-    
     let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 35))
     toolBar.barStyle = .default
     toolBar.isTranslucent = true
@@ -84,10 +82,11 @@ class ViewController: UIViewController {
     toolBar.isUserInteractionEnabled = true
     
     self.selectCurrencyTextField.inputAccessoryView = toolBar
-    
   }
+  
   @objc private func updateCurrencyList() {
     if let indexRow = self.changeCurrencyPicker?.selectedRow(inComponent: 0) {
+      self.selectedRowFromPicker = indexRow
       let text = self.pickerDataSource[indexRow]
       self.fetchNetworkRequest(with: text)
     }
@@ -177,7 +176,6 @@ extension ViewController: UICollectionViewDataSource {
       let currencyInfo = self.currencyExchangeData[indexPath.row]
       cell.setupCell(with: currencyInfo)
       
-      
       return cell
     }
     return UICollectionViewCell()
@@ -193,7 +191,6 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
       
       return CGSize(width: width, height: width)
     }
-    
     return CGSize(width: 50, height: 50)
   }
 }
